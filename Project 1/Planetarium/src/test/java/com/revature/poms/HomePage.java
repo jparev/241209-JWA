@@ -67,14 +67,21 @@ public class HomePage {
         int rowCount = tableRows.size();
         TestRunner.wait.until(driver -> {
             List<WebElement> rowsAfter = driver.findElements(By.tagName("tr"));
-            System.out.println("rc" + rowCount);
-            System.out.println(rowsAfter.size());
             return rowsAfter.size() > rowCount;
         });
         return driver.findElements(By.tagName("tr")).size() - 1;
     }
 
     public boolean deletePlanetCheck(){
+        TestRunner.wait.until(driver -> {
+            try {
+                 WebElement element = driver.findElement(By.xpath("//td[text()=\"Earth\"]"));
+                return false;
+            } catch (NoSuchElementException e) {
+                return true;
+            }
+        });
+
         try {
             WebElement element = driver.findElement(By.xpath("//td[text()=\"Earth\"]"));
             return false;
@@ -84,6 +91,15 @@ public class HomePage {
     }
 
     public boolean deleteMoonCheck(){
+        TestRunner.wait.until(driver -> {
+            try {
+                WebElement element = driver.findElement(By.xpath("//td[text()=\"Luna\"]"));
+                return false;
+            } catch (NoSuchElementException e) {
+                return true;
+            }
+        });
+
         try {
             WebElement element = driver.findElement(By.xpath("//td[text()=\"Luna\"]"));
             return false;
